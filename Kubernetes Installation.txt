@@ -1,0 +1,28 @@
+###use t2 medium for both
+
+
+1.Create 2 vm for master and worker node
+2.Goto root user--->sudo su
+2.create file in master node
+--> touch install.sh
+edit it by ---> vi install.sh
+3.Save and exit file
+Press ESC key and then wq
+4.Installation
+-->sh install.sh
+4.Same steps with worker node
+5.In master paste cmd -->Creation of pod
+---> kubeadm init --pod-network-cidr=192.168.0.0/16
+6.Connection worker node with master node
+--->kubeadm join 172.31.84.208:6443 --token 02htvw.6le7j618oakujd1t \
+    --discovery-token-ca-cert-hash sha256:3f984f713784216ad9ed8c9ff1c0d34fcf1be013a2b2853c66c7f084b37b24d4
+7.Run foolowing configuration commands on master node
+--->mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+8.Run finall two commands
+--->kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.25.1/manifests/calico.yaml 
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.49.0/deploy/static/provider/baremetal/deploy.yaml
+9.Run kubectl to check if it is installed
+10.Run to check nodes--->kubectl get nodes
+11.Refer yaml file config.
